@@ -80,7 +80,9 @@ let fun = {
   },
   init(data) {
     this.subStr(data+ ' ');
-    console.log("拆分后的单词：", Array.from(new Set(this.keywords)));
+    let str = Array.from(new Set(this.keywords));
+    console.log("拆分后的单词：", str);
+    return str;
   }
 }
 
