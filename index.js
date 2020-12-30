@@ -1,2 +1,4 @@
 const fun = require("./src/libs/index.js");
-fun.init("纳斯腮红");
+const words = require("./index.json");
+fun.initWord(words);
+// fun.init("纳斯腮红");
