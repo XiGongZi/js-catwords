@@ -1,5 +1,5 @@
 {
-  "name": "js-catwords",
+  "name": "js-catwords-20201230",
   "version": "1.0.0",
   "description": "通过js处理能够快速匹配拆解成对应的关键词",
   "main": "index.js",
