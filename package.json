@@ -1,6 +1,6 @@
 {
   "name": "js-catwords",
-  "version": "1.0.1",
+  "version": "1.0.11",
   "description": "通过js处理能够快速匹配拆解成对应的关键词",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
 	"repository": {
 		"type": "git",
-		"url": "git@gitee.com:gongzixi/cat.git"
+		"url": "git@gitee.com:gongzixi/js-catwords.git"
 	},
   "author": "gongzixi",
   "license": "ISC"
