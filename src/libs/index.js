@@ -1,22 +1,4 @@
-const dictFun = require("./setwords");
-// 字典
-let obj = {
-  "纳": {
-    "斯": 0,
-    "伊": 0
-  },
-  "腮": {
-    "红": 0,
-    "绿": 0
-  }
-}
-// 词库
-let strs = {
-  "纳斯": 1,
-  "腮红": 1
-};
-// 原始数据
-// let origin = ["纳斯", "腮红"];
+const dictFun = require("./setdict");
 
 /**
  * 思路：
@@ -29,16 +11,18 @@ let fun = {
   // 当前关键词
   keyword: '',
   // 字典
-  keys: obj,
+  keys: {},
   // 词库
-  words: strs,
+  words: {},
   // 状态 1：可取下一个； 0：停止
   status: 1,
   len: 0, 
   initWord(data) {
+    // 根据词库生成数组对象
     const res = dictFun.initWords(data);
     this.words = res.words;
-    console.log("this.words", this.words);
+    this.keys = res.dict;
+    console.log("词库生成中...", res);
   },
   judgeExist() {
     // 判断是否存在, 若存在则通过， 若不存在则设置状态为0
