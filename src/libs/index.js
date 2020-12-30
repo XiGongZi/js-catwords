@@ -1,4 +1,4 @@
-const {initWords} = require("./setwords");
+const dictFun = require("./setwords");
 // 字典
 let obj = {
   "纳": {
@@ -36,8 +36,9 @@ let fun = {
   status: 1,
   len: 0, 
   initWord(data) {
-    const res = initWords(data);
-    console.log(res);
+    const res = dictFun.initWords(data);
+    this.words = res.words;
+    console.log("this.words", this.words);
   },
   judgeExist() {
     // 判断是否存在, 若存在则通过， 若不存在则设置状态为0
