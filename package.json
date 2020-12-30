@@ -1,14 +1,10 @@
 {
   "name": "js-catwords-rydergzx",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "通过js处理能够快速匹配拆解成对应的关键词",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://gitee.com/gongzixi/cat.git"
   },
   "author": "gongzixi",
   "license": "ISC"
