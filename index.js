@@ -4,4 +4,7 @@ const fun = require("./src/libs/index.js");
 // fun.initWord(words);
 // // 找词
 // fun.init("纳斯腮红");
-modules.export = fun;
+
+
+exports.initWord = fun.initWord;
+exports.init = fun.init;
