@@ -9,7 +9,20 @@
 	"repository": {
 		"type": "git",
 		"url": "git@gitee.com:gongzixi/js-catwords.git"
-	},
+  },
+  
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "nodemon": "^2.0.3",
+    "cross-env": "^5.2.0",
+    "rimraf": "^2.6.3",
+    "shx": "^0.3.2",
+    "dotenv": "^8.2.0"
+  },
   "author": "gongzixi",
   "license": "ISC"
 }
