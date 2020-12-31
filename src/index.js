@@ -1,4 +1,5 @@
 const fun = require("./libs/index.js");
+"use strict";
 // const words = require("./index.json");
 // // 通过原始数据生成需要的字典
 // fun.initWord(words);
