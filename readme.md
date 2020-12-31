@@ -7,5 +7,18 @@
 ### 二、使用
 0. npm i js-catwords -S;
 1. import catWords from "js-catwords";
-2. 通过 `catWords.initWord(words)` 方法 传入 `["word0", "word1"]` 这样的词库初始化字典;
-3. `catWords.init("your words")` 方法来获取筛选后的结果
+2. 通过 
+   ```javascript
+    catWords.initWord(words);
+   ```
+    方法 传入 `["word0", "word1"]` 这样的词库初始化字典;
+3. 
+   
+   ```javascript
+    catWords.init("your words");
+   ```
+    方法来获取筛选后的结果
+
+
+
+    "build": "rimraf dist && babel src -D --out-dir dist && shx cp .env.production ./dist/.env"

@@ -4,12 +4,27 @@
   "description": "通过js处理能够快速匹配拆解成对应的关键词",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch .env --watch src --exec babel-node src --source-maps",
+    "build": "rimraf dist && babel src -D --out-dir dist && shx cp .env.production ./dist/.env"
   },
 	"repository": {
 		"type": "git",
 		"url": "git@gitee.com:gongzixi/js-catwords.git"
-	},
+  },
+  
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "nodemon": "^2.0.3",
+    "cross-env": "^5.2.0",
+    "rimraf": "^2.6.3",
+    "shx": "^0.3.2",
+    "dotenv": "^8.2.0"
+  },
   "author": "gongzixi",
   "license": "ISC"
 }
