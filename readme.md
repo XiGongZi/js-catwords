@@ -20,5 +20,3 @@
     方法来获取筛选后的结果
 
 
-
-    "build": "rimraf dist && babel src -D --out-dir dist && shx cp .env.production ./dist/.env"
