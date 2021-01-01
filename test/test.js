@@ -4,6 +4,7 @@ var words = require("../index.json");
 
 catwords.initWord(words);
 
+
 it(`纳斯 should return ["纳斯"]`, function()
 {
     var sum = catwords.init("纳斯");

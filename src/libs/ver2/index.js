@@ -5,20 +5,14 @@ const dictFun = require("./setdict");
  * 1. 将字符串一个个拆解并匹配字典，若第一个就未匹配到则丢掉换下一个。
  * 2. 当至少匹配到一个时，如果遇到不匹配项则停止匹配并将匹配到的关键词去词库查询是否存在。
  */
-let pubData = {
-  // 关键词集合
-  keywords: [],
-  // 当前关键词
-  keyword: '',
-  // 字典
-  keys: {},
-  // 词库
-  words: {},
-  // 状态 1：可取下一个； 0：停止
-  status: 1,
-  len: 0
-};
+let pubData = {};
 let pubBak = {
+  // 拆散的目标字符串
+  vipArr: [],
+  // 当前下标
+  indexNow: 0,
+  // 最后一次成功的下标
+  indexSuc: -1,
   // 关键词集合
   keywords: [],
   // 当前关键词
@@ -100,6 +94,9 @@ function init(data) {
   subStr(data+ ' ');
   let str = Array.from(new Set(pubData.keywords));
   console.log("拆分后的单词：", str);
+
+  
+// 是否允许console.log 恢复log方法
   return str;
 }
 module.exports = {
