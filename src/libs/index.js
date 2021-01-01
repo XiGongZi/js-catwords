@@ -17,13 +17,26 @@ let pubData = {
   // 状态 1：可取下一个； 0：停止
   status: 1,
   len: 0
-}
+};
+let pubBak = {
+  // 关键词集合
+  keywords: [],
+  // 当前关键词
+  keyword: '',
+  // 字典
+  keys: {},
+  // 词库
+  words: {},
+  // 状态 1：可取下一个； 0：停止
+  status: 1,
+  len: 0
+};
 
 function initWord(data) {
   // 根据词库生成数组对象
   const res = dictFun.initWords(data);
-  pubData.words = res.words;
-  pubData.keys = res.dict;
+  pubBak.words = res.words;
+  pubBak.keys = res.dict;
   // console.log("词库生成中...", res);
 };
 function judgeExist() {
@@ -72,7 +85,7 @@ function subStr(data) {
   data.split('').forEach(ele => {
     if (pubData.status === 0) setWords();
     // 关键词
-    pubData.keyword = pubData.keyword + ele;
+    pubData.keyword = pubData.keyword + ele;  
     
     judgeExist();
     
@@ -81,6 +94,9 @@ function subStr(data) {
   });
 };
 function init(data) {
+  // console.log("this keyword", pubData);
+  pubData = JSON.parse(JSON.stringify(pubBak));
+
   // console.log("fun", this);
   // console.log("fun", thisFun);
   subStr(data+ ' ');
