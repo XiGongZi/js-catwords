@@ -7,7 +7,8 @@ const words = require("../index.json");
 // 通过原始数据生成需要的字典
 fun.initWord(words);
 // 找词
-fun.init("纳纳斯");
+fun.init("纳2斯纳纳斯");
+// fun.init("纳纳2斯纳斯");
 
 
 

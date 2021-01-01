@@ -15,6 +15,8 @@ let pubBak = {
   vip: "",
   // 当前下标
   indexNow: 0,
+  indexSuc: 0,
+  sucFlag: false,
   // 关键词集合
   keywords: [],
   // 当前关键词
@@ -99,7 +101,7 @@ function judgeStop() {
    * 2. 当当前取得的下标等于字符长度, 且当前词汇不存在词库中，即可以判定停机
    */
   console.log("判断停机条件啦");
-  console.log(pubData);
+  // console.log(pubData);
   let list0 = !pubData.vipLen;
   console.log("0", list0);
   if (list0) console.log("---");
@@ -122,6 +124,13 @@ function judgeStop() {
   console.log("---");
   return false;
 };
+function getHis() {
+  // 获取上一次结果
+  if (!pubData.keywordHis.length) return "";
+  if (pubData.keywordHis.length === 1) return "";
+  if (pubData.keywordHis.length === 2) return pubData.keywordHis[2];
+  if (pubData.keywordHis.length === 3) return pubData.keywordHis[1];
+};
 function turing() {
   /**
    * 如何匹配？
@@ -130,8 +139,10 @@ function turing() {
    * 3. 判断是否存在字典相应深度中，
    *      若存在： 继续下一次检测, indexNow++
    *      若不存在： 检测当前捕获的词汇是否存在词库
-   *          存在词库 push词库 indexNow++; 
-   *          不存在词库，indexNow = indexNow - keyword.length + 1
+   *          存在词库 push词库
+   *              设置当前成功的index 
+   *              indexNow++; 
+   *          不存在词库，indexNow = 最后一次成功index + 1
    */
   
   pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
@@ -153,9 +164,22 @@ function turing() {
       pubData.indexNow++;
     } else {
       const res = isInWords();
+      console.log("开始步进", pubData.indexNow);
+      // const lastStr = getHis();
+      if (res) {
+        pubData.indexSuc = pubData.indexNow;
+        pubData.indexNow++;
+        pubData.sucFlag = true;
+      } else if (!pubData.sucFlag) {
+        pubData.indexNow++;
+      } else {
+        pubData.indexNow = pubData.indexSuc + 1;
+      }
+      // else if (pubData.keyword.length === 1) pubData.indexNow = pubData.indexNow; 
+      // else if (!lastStr) ;
+      // else pubData.indexNow = pubData.indexNow - lastStr.length + 1;
+      console.log("结束步进", pubData.indexNow);
       reset();
-      if (res) pubData.indexNow++;
-      else pubData.indexNow = pubData.indexNow - pubData.keyword.length;
       
     }
 
