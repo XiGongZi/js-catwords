@@ -1,4 +1,5 @@
-const fun = require("./libs/index.js");
+const fun = require("./libs/ver2/index.js");
+// const fun = require("./libs/ver1/index.js");
 "use strict";
 const words = require("../index.json");
 
