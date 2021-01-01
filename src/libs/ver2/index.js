@@ -50,6 +50,7 @@ function judgeExist() {
    * 2. 以长度作为深度对字典检索并获取最终值
    * 3. 以最终值判定是否存在 
    */
+  if (!pubData.keyword) return false;
   let len = pubData.keyword.length;
   let nowStr = pubData.keyword.charAt(len - 1);
   console.log(`判断是否存在【${nowStr}】`);
@@ -77,15 +78,16 @@ function isInWords() {
   if (pubData.words[pubData.keyword]) {
     console.log("存在此单词，识别成功！");
     pubData.keywords.push(pubData.keyword);
-    pubData.keyword = "";
     console.log("---");
     return true;
   } else {
-    pubData.keyword = "";
     console.log("---");
     console.log("不存在此单词！");
     return false;
   }
+};
+function reset() {
+  pubData.keyword = "";
 };
 function judgeStop() {
   console.log("---");
@@ -108,7 +110,7 @@ function judgeStop() {
   if (list1) console.log("---");
   if (list1) return true;
   
-  let list2 = pubData.indexNow === pubData.vipLen - 1 && pubData.keyword && !pubData.words[pubData.keyword];
+  let list2 = pubData.indexNow === pubData.vipLen - 1 && isInWords();
   console.log("2", list2);
   if (list2) console.log("---");
   if (list2) return true;
@@ -151,8 +153,9 @@ function turing() {
       pubData.indexNow++;
     } else {
       const res = isInWords();
+      reset();
       if (res) pubData.indexNow++;
-      else pubData.indexNow = pubData.indexNow - pubData.keyword.length + 1;
+      else pubData.indexNow = pubData.indexNow - pubData.keyword.length;
       
     }
 
