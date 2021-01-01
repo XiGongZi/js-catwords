@@ -48,35 +48,44 @@ function judgeExist() {
   for (let i = 0; i < len; i++) {
     obj = obj[pubData.keyword[i]];
   }
+  console.log("当前深度：", len - 1);
   if (!obj) {
-    console.log(`当前深度 ${pubData.indexNow} 不存在 【${nowStr}】 ,停止当前单词检测`);
+    console.log(`当前是字符第 ${pubData.indexNow} 个， 不存在 【${nowStr}】 ,停止当前单词检测`);
     console.log("---");
     // pubData.status = 0;
-    pubData.indexNow = pubData.indexSuc + 1;
+    // pubData.indexNow = pubData.indexSuc + 1;
     return false;
   } else {
-    console.log(`当前深度 ${pubData.indexNow} 存在 【${nowStr}】, 继续检测下一个字符`);
+    console.log(`当前是字符第 ${pubData.indexNow} 个， 存在 【${nowStr}】, 继续检测下一个字符`);
     console.log("---");
-    pubData.indexNow++;
+    // pubData.indexNow++;
     return true;
   }
   // if (!obj[pubData.keyword[len - 1]]) this.setData({status: 0});
 };
-function setWords() {
+function isInWords() {
   console.log("---");
   console.log(`判断单词 【${pubData.keyword}】 是否存在词库中`);
   // 若匹配为停止状态，则需要去判断当前词汇是否存在词库中，若存在则push到关键词集合中，若不存在则无视。执行后使状态恢复1
   if (pubData.words[pubData.keyword]) {
     console.log("存在此单词，识别成功！");
     pubData.keywords.push(pubData.keyword);
-    pubData.indexSuc = pubData.indexNow;
+    console.log(pubData);
+    // pubData.indexSuc = pubData.indexNow;
+    console.log(pubData);
+    // pubData.indexNow++;
+    pubData.keyword = "";
+    console.log("---");
+    return true;
   } else {
+    pubData.keyword = "";
+    console.log("---");
     console.log("不存在此单词！");
-    pubData.indexNow = pubData.indexSuc + 1;
+    return false;
+    // console.log(pubData);
+    // pubData.indexNow = pubData.indexSuc + 1;
+    // pubData.indexNow++;
   }
-  pubData.keyword = "";
-  pubData.status = 1;
-  console.log("---");
 };
 function judgeStop() {
   // 否符合停机条件
@@ -94,28 +103,42 @@ function turing() {
   /**
    * 如何匹配？
    * 0. 判断是否符合停机条件，若符合则停机
-   * 1. 判断是否符合push关键词条件
-   * 1. 获取当前应检测的下标
-   * 2. 根据下标取出字符
-   * 3. 判断是否存在
+   * 1. 获取当前应检测的下标,并设置
+   * 3. 判断是否存在，
+   *      若存在： 继续下一次检测, indexNow++
+   *      若不存在： 检测当前捕获的词汇是否存在词库
+   *          存在词库 push词库，indexNow++; indexSuc = indexNow
+   *          不存在词库，indexNow = indexSuc + 1
    */
   console.log("--------->");
   console.log("当前循环次数： ", pubData.cir);
-  pubData.cir++;
   // console.log(pubData, judgeStop());
   const stop = judgeStop();
   if (stop) console.log("停机！");
   else console.log("停机个毛线，继续！");
   if ( stop ) return  Array.from(new Set(pubData.keywords));
 
+
     pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
     
     console.log(pubData);
 
     const exist = judgeExist();
-    if (!exist) setWords();
+
+    if (exist) {
+      pubData.indexNow++;
+    } else {
+      const res = isInWords();
+      if (res) pubData.indexNow++ , pubData.indexSuc = pubData.indexNow;
+      else pubData.indexNow = pubData.indexSuc + 1;
+    }
 
     console.log("--------->");
+
+    
+    pubData.cir++;
+    // pubData.indexNow++;
+
     return turing();
 };
 function init(data) {
@@ -123,7 +146,7 @@ function init(data) {
   console.log("=================================================================================");
   pubData = JSON.parse(JSON.stringify(pubBak));
   
-  // data = data + ' ';
+  data = data + ' ';
 
   pubData.vip = data;
   pubData.vipLen = data.length;
