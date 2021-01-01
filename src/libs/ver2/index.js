@@ -15,8 +15,6 @@ let pubBak = {
   vip: "",
   // 当前下标
   indexNow: 0,
-  // 最后一次成功的下标
-  indexSuc: 0,
   // 关键词集合
   keywords: [],
   // 当前关键词
@@ -90,6 +88,7 @@ function isInWords() {
   }
 };
 function judgeStop() {
+  console.log("---");
   // 否符合停机条件
   /** true: 可以停机  false 不可停机
    * 停机条件：
@@ -101,20 +100,24 @@ function judgeStop() {
   console.log(pubData);
   let list0 = !pubData.vipLen;
   console.log("0", list0);
+  if (list0) console.log("---");
   if (list0) return true;
   // if (pubData.keyword === '~') return true;
   let list1 = pubData.indexNow > pubData.vipLen - 1;
   console.log("1", list1);
+  if (list1) console.log("---");
   if (list1) return true;
   
   let list2 = pubData.indexNow === pubData.vipLen - 1 && pubData.keyword && !pubData.words[pubData.keyword];
   console.log("2", list2);
+  if (list2) console.log("---");
   if (list2) return true;
 
   let list3 = checkError();
   console.log("3", list3);
+  if (list3) console.log("---");
   if (list3) return true;
-
+  console.log("---");
   return false;
 };
 function turing() {
@@ -122,11 +125,11 @@ function turing() {
    * 如何匹配？
    * 0. 判断是否符合停机条件，若符合则停机
    * 1. 获取当前应检测的下标,并设置
-   * 3. 判断是否存在，
+   * 3. 判断是否存在字典相应深度中，
    *      若存在： 继续下一次检测, indexNow++
    *      若不存在： 检测当前捕获的词汇是否存在词库
-   *          存在词库 push词库，indexNow++; indexSuc = indexNow
-   *          不存在词库，indexNow = indexSuc + 1
+   *          存在词库 push词库 indexNow++; 
+   *          不存在词库，indexNow = indexNow - keyword.length + 1
    */
   
   pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
@@ -148,8 +151,9 @@ function turing() {
       pubData.indexNow++;
     } else {
       const res = isInWords();
-      if (res) pubData.indexNow++ , pubData.indexSuc = pubData.indexNow;
-      else pubData.indexNow = pubData.indexSuc + 1;
+      if (res) pubData.indexNow++;
+      else pubData.indexNow = pubData.indexNow - pubData.keyword.length + 1;
+      
     }
 
     console.log("--------->");
