@@ -21,6 +21,8 @@ let pubBak = {
   keywords: [],
   // 当前关键词
   keyword: '',
+  // 关键词历史
+  keywordHis: [],
   // 字典
   keys: {},
   // 词库
@@ -30,6 +32,17 @@ let pubBak = {
   len: 0
 };
 
+function checkError() {
+  if (pubData.keywordHis.length < 3) {
+    pubData.keywordHis.push(pubData.keyword);
+    return false;
+  } else {
+    pubData.keywordHis.shift();
+    pubData.keywordHis.push(pubData.keyword);
+    if (pubData.keywordHis[0] === pubData.keywordHis[1] && pubData.keywordHis[1] === pubData.keywordHis[2]) return true;
+    else return false;
+  }
+};
 function judgeExist() {
   console.log("---");
   // 判断是否存在, 若存在则通过， 若不存在则设置状态为0
@@ -97,7 +110,12 @@ function judgeStop() {
   let list2 = pubData.indexNow === pubData.vipLen - 1 && pubData.keyword && !pubData.words[pubData.keyword];
   console.log("2", list2);
   if (list2) return true;
-  else return false;
+
+  let list3 = checkError();
+  console.log("3", list3);
+  if (list3) return true;
+
+  return false;
 };
 function turing() {
   /**
