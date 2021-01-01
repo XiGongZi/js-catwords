@@ -81,7 +81,8 @@ function judgeStop() {
   /** true: 可以停机  false 不可停机
    * 停机条件：
    * 0. 当字符串本身长度为0
-   * 1. 当当前取得的下标大于等于字符长度，且当前词汇不存在词库中，即可以判定停机
+   * 1. 当当前取得的下标大于字符长度
+   * 2. 当当前取得的下标等于字符长度, 且当前词汇不存在词库中，即可以判定停机
    */
   console.log("判断停机条件啦");
   console.log(pubData);
@@ -109,6 +110,9 @@ function turing() {
    *          存在词库 push词库，indexNow++; indexSuc = indexNow
    *          不存在词库，indexNow = indexSuc + 1
    */
+  
+  pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
+
   console.log("--------->");
   console.log("当前循环次数： ", pubData.cir);
   const stop = judgeStop();
@@ -117,7 +121,6 @@ function turing() {
   if ( stop ) return  Array.from(new Set(pubData.keywords));
 
 
-    pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
     
     console.log(pubData);
 
