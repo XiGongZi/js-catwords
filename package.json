@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/test.js",
-    "dev": "nodemon --watch .env --watch src --exec babel-node src --source-maps",
+    "dev": "nodemon src --watch .env --watch src",
     "build": "rimraf dist && babel src -D --out-dir dist && shx cp .env.production ./dist/.env"
   },
 	"repository": {
