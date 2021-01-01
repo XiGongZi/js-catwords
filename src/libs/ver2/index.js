@@ -31,7 +31,7 @@ let pubBak = {
 };
 
 function judgeExist() {
-  // console.log("---");
+  console.log("---");
   // 判断是否存在, 若存在则通过， 若不存在则设置状态为0
   /**
    * 如何判断存在？
@@ -41,50 +41,39 @@ function judgeExist() {
    */
   let len = pubData.keyword.length;
   let nowStr = pubData.keyword.charAt(len - 1);
-  // console.log(`判断是否存在【${nowStr}】`);
-  // console.log(`当前关键词： 【${pubData.keyword}】`);
+  console.log(`判断是否存在【${nowStr}】`);
+  console.log(`当前关键词： 【${pubData.keyword}】`);
   if (!len) return;
   let obj = pubData.keys;
   for (let i = 0; i < len; i++) {
     obj = obj[pubData.keyword[i]];
   }
-  // console.log("当前深度：", len - 1);
+  console.log("当前深度：", len - 1);
   if (!obj) {
-    // console.log(`当前是字符第 ${pubData.indexNow} 个， 不存在 【${nowStr}】 ,停止当前单词检测`);
-    // console.log("---");
-    // pubData.status = 0;
-    // pubData.indexNow = pubData.indexSuc + 1;
+    console.log(`当前是字符第 ${pubData.indexNow} 个， 不存在 【${nowStr}】 ,停止当前单词检测`);
+    console.log("---");
     return false;
   } else {
-    // console.log(`当前是字符第 ${pubData.indexNow} 个， 存在 【${nowStr}】, 继续检测下一个字符`);
-    // console.log("---");
-    // pubData.indexNow++;
+    console.log(`当前是字符第 ${pubData.indexNow} 个， 存在 【${nowStr}】, 继续检测下一个字符`);
+    console.log("---");
     return true;
   }
-  // if (!obj[pubData.keyword[len - 1]]) this.setData({status: 0});
 };
 function isInWords() {
-  // console.log("---");
-  // console.log(`判断单词 【${pubData.keyword}】 是否存在词库中`);
+  console.log("---");
+  console.log(`判断单词 【${pubData.keyword}】 是否存在词库中`);
   // 若匹配为停止状态，则需要去判断当前词汇是否存在词库中，若存在则push到关键词集合中，若不存在则无视。执行后使状态恢复1
   if (pubData.words[pubData.keyword]) {
-    // console.log("存在此单词，识别成功！");
+    console.log("存在此单词，识别成功！");
     pubData.keywords.push(pubData.keyword);
-    // console.log(pubData);
-    // pubData.indexSuc = pubData.indexNow;
-    // console.log(pubData);
-    // pubData.indexNow++;
     pubData.keyword = "";
-    // console.log("---");
+    console.log("---");
     return true;
   } else {
     pubData.keyword = "";
-    // console.log("---");
-    // console.log("不存在此单词！");
+    console.log("---");
+    console.log("不存在此单词！");
     return false;
-    console.log(pubData);
-    // pubData.indexNow = pubData.indexSuc + 1;
-    // pubData.indexNow++;
   }
 };
 function judgeStop() {
@@ -94,9 +83,19 @@ function judgeStop() {
    * 0. 当字符串本身长度为0
    * 1. 当当前取得的下标大于等于字符长度，且当前词汇不存在词库中，即可以判定停机
    */
-  if (!pubData.vipLen) return true;
-  if (pubData.indexNow > pubData.vipLen - 1) return true;
-  if (pubData.indexNow === pubData.vipLen - 1 && pubData.keyword && !pubData.words[pubData.keyword]) return true;
+  console.log("判断停机条件啦");
+  console.log(pubData);
+  let list0 = !pubData.vipLen;
+  console.log("0", list0);
+  if (list0) return true;
+  // if (pubData.keyword === '~') return true;
+  let list1 = pubData.indexNow > pubData.vipLen - 1;
+  console.log("1", list1);
+  if (list1) return true;
+  
+  let list2 = pubData.indexNow === pubData.vipLen - 1 && pubData.keyword && !pubData.words[pubData.keyword];
+  console.log("2", list2);
+  if (list2) return true;
   else return false;
 };
 function turing() {
@@ -110,18 +109,17 @@ function turing() {
    *          存在词库 push词库，indexNow++; indexSuc = indexNow
    *          不存在词库，indexNow = indexSuc + 1
    */
-  // console.log("--------->");
-  // console.log("当前循环次数： ", pubData.cir);
-  // console.log(pubData, judgeStop());
+  console.log("--------->");
+  console.log("当前循环次数： ", pubData.cir);
   const stop = judgeStop();
-  // if (stop) console.log("停机！");
-  // else console.log("停机个毛线，继续！");
+  if (stop) console.log("停机！");
+  else console.log("停机个毛线，继续！");
   if ( stop ) return  Array.from(new Set(pubData.keywords));
 
 
     pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
     
-    // console.log(pubData);
+    console.log(pubData);
 
     const exist = judgeExist();
 
@@ -133,7 +131,7 @@ function turing() {
       else pubData.indexNow = pubData.indexSuc + 1;
     }
 
-    // console.log("--------->");
+    console.log("--------->");
 
     
     pubData.cir++;
@@ -143,16 +141,16 @@ function turing() {
 };
 function init(data) {
   if (typeof data !== "string") return [];
-  // console.log("=================================================================================");
+  console.log("=================================================================================");
   pubData = JSON.parse(JSON.stringify(pubBak));
   
-  data = data + ' ';
+  // data = data + '~';
 
   pubData.vip = data;
   pubData.vipLen = data.length;
   
   let str = turing();
-  // console.log("拆分后的单词：", str);
+  console.log("拆分后的单词：", str);
   return str;
 }
 
@@ -161,7 +159,6 @@ function initWord(data) {
   const res = dictFun.initWords(data);
   pubBak.words = res.words;
   pubBak.keys = res.dict;
-  // console.log("词库生成中...", res);
 };
 
 module.exports = {
