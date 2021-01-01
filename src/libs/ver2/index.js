@@ -7,12 +7,16 @@ const dictFun = require("./setdict");
  */
 let pubData = {};
 let pubBak = {
-  // 拆散的目标字符串
-  vipArr: [],
+  // 循环次数
+  cir: 0,
+  // 目标字符串长度
+  vipLen: "",
+  // 目标字符串
+  vip: "",
   // 当前下标
   indexNow: 0,
   // 最后一次成功的下标
-  indexSuc: -1,
+  indexSuc: 0,
   // 关键词集合
   keywords: [],
   // 当前关键词
@@ -26,14 +30,8 @@ let pubBak = {
   len: 0
 };
 
-function initWord(data) {
-  // 根据词库生成数组对象
-  const res = dictFun.initWords(data);
-  pubBak.words = res.words;
-  pubBak.keys = res.dict;
-  console.log("词库生成中...", res);
-};
 function judgeExist() {
+  console.log("---");
   // 判断是否存在, 若存在则通过， 若不存在则设置状态为0
   /**
    * 如何判断存在？
@@ -51,56 +49,100 @@ function judgeExist() {
     obj = obj[pubData.keyword[i]];
   }
   if (!obj) {
-    console.log(`不存在 【${nowStr}】 ,停止当前单词检测`);
-    pubData.status = 0;
+    console.log(`当前深度 ${pubData.indexNow} 不存在 【${nowStr}】 ,停止当前单词检测`);
+    console.log("---");
+    // pubData.status = 0;
+    pubData.indexNow = pubData.indexSuc + 1;
+    return false;
   } else {
-    console.log(`存在 【${nowStr}】, 继续检测下一个字符`);
+    console.log(`当前深度 ${pubData.indexNow} 存在 【${nowStr}】, 继续检测下一个字符`);
+    console.log("---");
+    pubData.indexNow++;
+    return true;
   }
   // if (!obj[pubData.keyword[len - 1]]) this.setData({status: 0});
 };
 function setWords() {
+  console.log("---");
   console.log(`判断单词 【${pubData.keyword}】 是否存在词库中`);
   // 若匹配为停止状态，则需要去判断当前词汇是否存在词库中，若存在则push到关键词集合中，若不存在则无视。执行后使状态恢复1
   if (pubData.words[pubData.keyword]) {
     console.log("存在此单词，识别成功！");
     pubData.keywords.push(pubData.keyword);
+    pubData.indexSuc = pubData.indexNow;
   } else {
     console.log("不存在此单词！");
+    pubData.indexNow = pubData.indexSuc + 1;
   }
   pubData.keyword = "";
   pubData.status = 1;
+  console.log("---");
 };
-function subStr(data) {
+function judgeStop() {
+  // 否符合停机条件
+  /** true: 可以停机  false 不可停机
+   * 停机条件：
+   * 0. 当字符串本身长度为0
+   * 1. 当当前取得的下标大于等于字符长度，且当前词汇不存在词库中，即可以判定停机
+   */
+  if (!pubData.vipLen) return true;
+  if (pubData.indexNow > pubData.vipLen - 1) return true;
+  if (pubData.indexNow === pubData.vipLen - 1 && pubData.keyword && !pubData.words[pubData.keyword]) return true;
+  else return false;
+};
+function turing() {
   /**
    * 如何匹配？
-   * 1. 取出一个，判断当前关键词长度，通过长度来取出字典对应的值
-   * 2. 若无法取出则设置状态为0
+   * 0. 判断是否符合停机条件，若符合则停机
+   * 1. 判断是否符合push关键词条件
+   * 1. 获取当前应检测的下标
+   * 2. 根据下标取出字符
+   * 3. 判断是否存在
    */
-  data.split('').forEach(ele => {
-    if (pubData.status === 0) setWords();
-    // 关键词
-    pubData.keyword = pubData.keyword + ele;  
+  console.log("--------->");
+  console.log("当前循环次数： ", pubData.cir);
+  pubData.cir++;
+  // console.log(pubData, judgeStop());
+  const stop = judgeStop();
+  if (stop) console.log("停机！");
+  else console.log("停机个毛线，继续！");
+  if ( stop ) return  Array.from(new Set(pubData.keywords));
+
+    pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
     
-    judgeExist();
-    
-  });
+    console.log(pubData);
+
+    const exist = judgeExist();
+    if (!exist) setWords();
+
+    console.log("--------->");
+    return turing();
 };
 function init(data) {
-  // console.log("this keyword", pubData);
+  if (typeof data !== "string") return [];
+  console.log("=================================================================================");
   pubData = JSON.parse(JSON.stringify(pubBak));
+  
+  // data = data + ' ';
 
-  // console.log("fun", this);
-  // console.log("fun", thisFun);
-  subStr(data+ ' ');
-  let str = Array.from(new Set(pubData.keywords));
+  pubData.vip = data;
+  pubData.vipLen = data.length;
+  
+  let str = turing();
   console.log("拆分后的单词：", str);
 
-  
-// 是否允许console.log 恢复log方法
   return str;
 }
+
+function initWord(data) {
+  // 根据词库生成数组对象
+  const res = dictFun.initWords(data);
+  pubBak.words = res.words;
+  pubBak.keys = res.dict;
+  // console.log("词库生成中...", res);
+};
+
 module.exports = {
   init,
   initWord
 };
-// fun.init("纳斯腮红")
