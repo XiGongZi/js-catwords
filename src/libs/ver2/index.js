@@ -23,6 +23,8 @@ let pubBak = {
   keyword: '',
   // 关键词历史
   keywordHis: [],
+  // 上一次关键词
+  keywordLast: "",
   // 字典
   keys: {},
   // 词库
@@ -62,6 +64,7 @@ function judgeExist() {
   for (let i = 0; i < len; i++) {
     obj = obj[pubData.keyword[i]];
   }
+  pubData.keywordLast = pubData.keyword;
   console.log("当前深度：", len - 1);
   if (!obj) {
     console.log(`当前是字符第 ${pubData.indexNow} 个， 不存在 【${nowStr}】 ,停止当前单词检测`);
@@ -89,6 +92,7 @@ function isInWords() {
   }
 };
 function reset() {
+  // pubData.keywordLast = pubData.keyword;
   pubData.keyword = "";
 };
 function judgeStop() {
@@ -126,10 +130,14 @@ function judgeStop() {
 };
 function getHis() {
   // 获取上一次结果
-  if (!pubData.keywordHis.length) return "";
-  if (pubData.keywordHis.length === 1) return "";
-  if (pubData.keywordHis.length === 2) return pubData.keywordHis[2];
-  if (pubData.keywordHis.length === 3) return pubData.keywordHis[1];
+  // console.log(`getHis`, pubData.keywordHis);
+  console.log(`getHis`, pubData.keywordLast);
+  if (!pubData.keywordLast) return " ";
+  // if (!pubData.keywordHis.length) return "";
+  else return pubData.keywordLast;
+  // if (pubData.keywordHis.length === 1) return "";
+  // if (pubData.keywordHis.length === 2) return pubData.keywordHis[0];
+  // if (pubData.keywordHis.length === 3) return pubData.keywordHis[2];
 };
 function turing() {
   /**
@@ -169,11 +177,14 @@ function turing() {
       if (res) {
         pubData.indexSuc = pubData.indexNow;
         pubData.indexNow++;
-        pubData.sucFlag = true;
-      } else if (!pubData.sucFlag) {
-        pubData.indexNow++;
+        // pubData.sucFlag = true;
+      // } else if (!pubData.sucFlag) {
+      //   pubData.indexNow++;
       } else {
-        pubData.indexNow = pubData.indexSuc + 1;
+        // pubData.indexNow = pubData.indexSuc + 1;
+        let needmove = pubData.indexNow - getHis().length + 2;
+        console.log(`准备更新下标${needmove}`);
+        pubData.indexNow = needmove;
       }
       // else if (pubData.keyword.length === 1) pubData.indexNow = pubData.indexNow; 
       // else if (!lastStr) ;
