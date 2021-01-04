@@ -46,7 +46,7 @@ function checkError() {
   }
 };
 function judgeExist() {
-  console.log("---");
+  // console.log("---");
   // 判断是否存在, 若存在则通过， 若不存在则设置状态为0
   /**
    * 如何判断存在？
@@ -57,37 +57,37 @@ function judgeExist() {
   if (!pubData.keyword) return false;
   let len = pubData.keyword.length;
   let nowStr = pubData.keyword.charAt(len - 1);
-  console.log(`判断是否存在【${nowStr}】`);
-  console.log(`当前关键词： 【${pubData.keyword}】`);
+  // console.log(`判断是否存在【${nowStr}】`);
+  // console.log(`当前关键词： 【${pubData.keyword}】`);
   if (!len) return;
   let obj = pubData.keys;
   for (let i = 0; i < len; i++) {
     obj = obj[pubData.keyword[i]];
   }
   pubData.keywordLast = pubData.keyword;
-  console.log("当前深度：", len - 1);
+  // console.log("当前深度：", len - 1);
   if (!obj) {
-    console.log(`当前是字符第 ${pubData.indexNow} 个， 不存在 【${nowStr}】 ,停止当前单词检测`);
-    console.log("---");
+    // console.log(`当前是字符第 ${pubData.indexNow} 个， 不存在 【${nowStr}】 ,停止当前单词检测`);
+    // console.log("---");
     return false;
   } else {
-    console.log(`当前是字符第 ${pubData.indexNow} 个， 存在 【${nowStr}】, 继续检测下一个字符`);
-    console.log("---");
+    // console.log(`当前是字符第 ${pubData.indexNow} 个， 存在 【${nowStr}】, 继续检测下一个字符`);
+    // console.log("---");
     return true;
   }
 };
 function isInWords() {
-  console.log("---");
-  console.log(`判断单词 【${pubData.keyword}】 是否存在词库中`);
+  // console.log("---");
+  // console.log(`判断单词 【${pubData.keyword}】 是否存在词库中`);
   // 若匹配为停止状态，则需要去判断当前词汇是否存在词库中，若存在则push到关键词集合中，若不存在则无视。执行后使状态恢复1
   if (pubData.words[pubData.keyword]) {
-    console.log("存在此单词，识别成功！");
+    // console.log("存在此单词，识别成功！");
     pubData.keywords.push(pubData.keyword);
-    console.log("---");
+    // console.log("---");
     return true;
   } else {
-    console.log("---");
-    console.log("不存在此单词！");
+    // console.log("---");
+    // console.log("不存在此单词！");
     return false;
   }
 };
@@ -96,7 +96,7 @@ function reset() {
   pubData.keyword = "";
 };
 function judgeStop() {
-  console.log("---");
+  // console.log("---");
   // 否符合停机条件
   /** true: 可以停机  false 不可停机
    * 停机条件：
@@ -104,34 +104,34 @@ function judgeStop() {
    * 1. 当当前取得的下标大于字符长度
    * 2. 当当前取得的下标等于字符长度, 且当前词汇不存在词库中，即可以判定停机
    */
-  console.log("判断停机条件啦");
+  // console.log("判断停机条件啦");
   // console.log(pubData);
   let list0 = !pubData.vipLen;
-  console.log("0", list0);
-  if (list0) console.log("---");
+  // console.log("0", list0);
+  // if (list0) console.log("---");
   if (list0) return true;
   // if (pubData.keyword === '~') return true;
   let list1 = pubData.indexNow > pubData.vipLen - 1;
-  console.log("1", list1);
-  if (list1) console.log("---");
+  // console.log("1", list1);
+  // if (list1) console.log("---");
   if (list1) return true;
   
   let list2 = pubData.indexNow === pubData.vipLen - 1 && isInWords();
-  console.log("2", list2);
-  if (list2) console.log("---");
+  // console.log("2", list2);
+  // if (list2) console.log("---");
   if (list2) return true;
 
   let list3 = checkError();
-  console.log("3", list3);
-  if (list3) console.log("---");
+  // console.log("3", list3);
+  // if (list3) console.log("---");
   if (list3) return true;
-  console.log("---");
+  // console.log("---");
   return false;
 };
 function getHis() {
   // 获取上一次结果
   // console.log(`getHis`, pubData.keywordHis);
-  console.log(`getHis`, pubData.keywordLast);
+  // console.log(`getHis`, pubData.keywordLast);
   if (!pubData.keywordLast) return " ";
   // if (!pubData.keywordHis.length) return "";
   else return pubData.keywordLast;
@@ -155,16 +155,16 @@ function turing() {
   
   pubData.keyword = pubData.keyword + pubData.vip[pubData.indexNow];  
 
-  console.log("--------->");
-  console.log("当前循环次数： ", pubData.cir);
+  // console.log("--------->");
+  // console.log("当前循环次数： ", pubData.cir);
   const stop = judgeStop();
-  if (stop) console.log("停机！");
-  else console.log("停机个毛线，继续！");
+  // if (stop) console.log("停机！");
+  // else console.log("停机个毛线，继续！");
   if ( stop ) return  Array.from(new Set(pubData.keywords));
 
 
     
-    console.log(pubData);
+    // console.log(pubData);
 
     const exist = judgeExist();
 
@@ -172,7 +172,7 @@ function turing() {
       pubData.indexNow++;
     } else {
       const res = isInWords();
-      console.log("开始步进", pubData.indexNow);
+      // console.log("开始步进", pubData.indexNow);
       // const lastStr = getHis();
       if (res) {
         pubData.indexSuc = pubData.indexNow;
@@ -183,18 +183,18 @@ function turing() {
       } else {
         // pubData.indexNow = pubData.indexSuc + 1;
         let needmove = pubData.indexNow - getHis().length + 2;
-        console.log(`准备更新下标${needmove}`);
+        // console.log(`准备更新下标${needmove}`);
         pubData.indexNow = needmove;
       }
       // else if (pubData.keyword.length === 1) pubData.indexNow = pubData.indexNow; 
       // else if (!lastStr) ;
       // else pubData.indexNow = pubData.indexNow - lastStr.length + 1;
-      console.log("结束步进", pubData.indexNow);
+      // console.log("结束步进", pubData.indexNow);
       reset();
       
     }
 
-    console.log("--------->");
+    // console.log("--------->");
 
     
     pubData.cir++;
@@ -204,7 +204,7 @@ function turing() {
 };
 function init(data) {
   if (typeof data !== "string") return [];
-  console.log("=================================================================================");
+  // console.log("=================================================================================");
   pubData = JSON.parse(JSON.stringify(pubBak));
   
   // data = data + '~';
@@ -213,7 +213,7 @@ function init(data) {
   pubData.vipLen = data.length;
   
   let str = turing();
-  console.log("拆分后的单词：", str);
+  // console.log("拆分后的单词：", str);
   return str;
 }
 
