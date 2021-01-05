@@ -1,6 +1,6 @@
 {
   "name": "js-catwords",
-  "version": "1.0.14",
+  "version": "2.0.0",
   "description": "通过js处理能够快速匹配拆解成对应的关键词",
   "main": "index.js",
   "scripts": {
