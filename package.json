@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test/test.js",
-    "dev": "nodemon src --watch .env --watch src",
-    "build": "rimraf dist && babel src -D --out-dir dist && shx cp .env.production ./dist/.env"
+    "dev": "nodemon src --watch .env --watch src"
   },
 	"repository": {
 		"type": "git",
@@ -14,17 +13,8 @@
   },
   
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/register": "^7.4.4",
-    "nodemon": "^2.0.3",
-    "cross-env": "^5.2.0",
-    "rimraf": "^2.6.3",
-    "shx": "^0.3.2",
-    "dotenv": "^8.2.0"
+    "mocha": "^8.2.1"
   },
   "author": "gongzixi",
-  "license": "ISC"
+  "license": "GAGPL"
 }
