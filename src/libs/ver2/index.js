@@ -214,7 +214,9 @@ function init(data) {
   
   let str = turing();
   // console.log("拆分后的单词：", str);
-  return str;
+  return {
+    filter: str
+  };
 }
 
 function initWord(data) {
